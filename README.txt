@@ -1,11 +1,10 @@
 ---------------------------------------------------------------------------------
 -- 
--- Arcade version of Tank Battalion for MiSTer fom Namco - MiSTerRetroWolf
+-- Arcade version of Tank Battalion for MiSTer from Namco - MiSTerRetroWolf
 --
 -- V 1.0 08/20/2022 - Nick Stone
 ---------------------------------------------------------------------------------
--- Support screen and controls rotation on HDMI output.
--- Only controls are rotated on VGA output.
+-- Supports screen and controls rotation on HDMI output.
 -- Sound now supported via samples
 -- 
 -- Inputs:

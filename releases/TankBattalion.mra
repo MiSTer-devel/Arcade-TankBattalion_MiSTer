@@ -2,9 +2,10 @@
 	<name>Tank Battalion</name>
 	<mameversion>0245</mameversion>
 	<setname>tankbatt</setname>
-	<mratimestamp>202207120941</mratimestamp>
+	<mratimestamp>20221211100829</mratimestamp>
 	<year>1980</year>
 	<manufacturer>Namco</manufacturer>
+	<rotation>vertical (cw)</rotation>
 	<category>Maze</category>
 	<rbf>TankBattalion</rbf>
 	<rom index="0" md5="none" zip="tankbatt.zip">

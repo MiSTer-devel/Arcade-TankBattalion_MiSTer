@@ -16,4 +16,6 @@
 		<part crc="aabd4fb1" name="tb1-5.2k"/>
 		<part crc="d17518bc" name="bct1-1.l3"/>
 	</rom>
+        <buttons default="A,Start,Select,L,R" names="Shoot,Start,Coin,Service"></buttons>
+
 </misterromdescription>

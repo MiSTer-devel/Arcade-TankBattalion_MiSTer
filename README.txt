@@ -5,7 +5,7 @@
 -- V 1.0 08/20/2022 - Nick Stone
 ---------------------------------------------------------------------------------
 -- Supports screen and controls rotation on HDMI output.
--- Sound now supported via samples
+-- Sound modelled from the board's analog circuits (no samples)
 -- 
 -- Inputs:
 --   UP,DOWN,LEFT,RIGHT : Tank Movements

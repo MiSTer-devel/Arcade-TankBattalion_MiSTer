@@ -58,6 +58,8 @@ wire Phi2=Phi;
 wire NMION = J4_q[7];
 wire explode = J4_q[5];
 wire fire = J4_q[4];
+wire motor_hi = J4_q[3];
+wire motor_off = J4_q[2];
 wire nNMI = ~(VBLANK & NMION);
 
 //end wire & reg setup 
@@ -633,26 +635,48 @@ wire [15:0] wav1_amp;
 wire [15:0] wav2_amp;
 wire [15:0] wav3_amp;
 
-	sound #(52095,"explode.txt") wav1
+	wire ena48, fxnoise;
+	FxClocks fxclk(.clk(CLK_18M), .ena48(ena48), .noise(fxnoise));
+
+	SoundFx #(921, 8383, 1438, 26482, 79101) wav1
 	(
 		.clk(CLK_18M),
-		.trigger(explode),//needs to be the explosion latch
-		.RESET_n(RESET_n),
-		.sound_out(wav1_amp)
+		.ena48(ena48),
+		.trig(explode),
+		.noise(fxnoise),
+		.sound(wav1_amp)
 	);
 
-	sound #(21791,"fire.txt") wav2
+	SoundFx #(2927, 8283, 4573, 26084, 37731) wav2
 	(
 		.clk(CLK_18M),
-		.trigger(fire),//needs to be the explosion latch
-		.RESET_n(RESET_n),
-		.sound_out(wav2_amp)
+		.ena48(ena48),
+		.trig(fire),
+		.noise(fxnoise),
+		.sound(wav2_amp)
 	);
-	
+
+	EngineSound engine
+	(
+		.clk(CLK_18M),
+		.reset(motor_off),
+		.highrpm(motor_hi),
+		.sound(wav3_amp)
+	);
+
 // Audio mixer
 // -----------
 // - Combine discrete audio circuit and wave output, then invert
-wire signed [15:0] sound_combined = 16'hFFFF - (wav1_amp + wav2_amp);
+reg [1:0] v2d = 0, v4d = 0;
+always @(posedge CLK_18M) begin
+	v2d <= {v2d[0], V2};
+	v4d <= {v4d[0], V4};
+end
+wire signed [15:0] wav4_amp = (J4_q[0] ? (v4d[1] ? 16'sd6000 : -16'sd6000) : 16'sd0)
+                            + (J4_q[1] ? (v2d[1] ? 16'sd6000 : -16'sd6000) : 16'sd0);
+
+wire signed [17:0] mix_sum = -18'sd1 - ($signed(wav1_amp) + $signed(wav2_amp) + $signed(wav3_amp) + wav4_amp);
+wire signed [15:0] sound_combined = (mix_sum > 18'sd32767) ? 16'sh7FFF : (mix_sum < -18'sd32768) ? 16'sh8000 : mix_sum[15:0];
 assign audio_l = sound_combined; //can just use sound combined if no pause
 assign audio_r = audio_l; //right audio = left audio, mono not stereo
 	

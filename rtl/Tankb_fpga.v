@@ -638,7 +638,7 @@ wire [15:0] wav3_amp;
 	wire ena48, fxnoise;
 	FxClocks fxclk(.clk(CLK_18M), .ena48(ena48), .noise(fxnoise));
 
-	SoundFx #(921, 8383, 1438, 26482, 52734) wav1
+	SoundFx #(921, 8383, 1438, 26482, 79101) wav1
 	(
 		.clk(CLK_18M),
 		.ena48(ena48),
